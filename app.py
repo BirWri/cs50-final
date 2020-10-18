@@ -50,17 +50,18 @@ def register():
     if request.method == "GET":
         return render_template("register.html")
     else:
+        # change the error messages
         if not request.form.get("username"):
-            return apology("must provide username", 403)
+            return render_template("sorry.html")
 
         if not request.form.get("password"):
-            return apology("must provide password", 403)
+            return render_template("sorry.html")
 
         if not request.form.get("password2"):
-            return apology("must provide password", 403)
+            return render_template("sorry.html")
 
         if request.form.get("password") != request.form.get("password2"):
-            return apology("try again password", 403)
+            return render_template("sorry.html")
 
         # make an entry into db
         con = sqlite3.connect('users.db')
