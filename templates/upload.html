@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% block title %}
+Upload new file
+{% endblock %}
+
+{% block main %}
+<script>
+  function pr() {
+    
+    var path = document.getElementById('image').value;
+    var filename = path.replace(/^.*\\/, "");
+    console.log(filename);
+    document.getElementById("result").innerHTML = filename;
+  };
+
+  function SelectFileText() {
+  document.getElementById("result").innerHTML = "Select file ...";
+  }
+
+</script>
+
+<div class="container" onload="SelectFileText()">
+    <div class="row">
+      <div class="col">
+        <!-- Page to use if i want preview of image -->
+        <!-- https://stackoverflow.com/questions/4459379/preview-an-image-before-it-is-uploaded -->
+        <h1>Upload an image</h1>
+        <hr>
+        <form action="/upload" method="POST" enctype="multipart/form-data">
+          <div class="form-group">
+            <div class="custom-file">           
+              <input type="file" class="custom-file-input" name="image" placeholder="image" id="image" oninput="pr()">
+              <label class="custom-file-label" for="image"><span id="result"></span></label>
+            </div>
+          </div>
+  
+          <button type="submit" class="btn btn-primary">Upload</button>
+  
+        </form>
+  
+      </div>
+    </div>
+  </div> 
+{% endblock %}

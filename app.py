@@ -1,4 +1,5 @@
 import sqlite3
+import os
 from sqlite3 import Error
 
 from flask import Flask, flash, jsonify, redirect, render_template, request, session, current_app, g, url_for
@@ -11,24 +12,40 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.utils import secure_filename
 import datetime
 
-# Upload folder
+# Upload folder addiotional read
 # https://stackoverflow.com/questions/42128484/flask-how-to-get-uploads-folder-path
 # https://www.zabana.me/notes/flask-tutorial-upload-files-amazon-s3?fbclid=IwAR2QRIi9bETlqISe__e3lfI58f-7NdHP59RnRnSaaO27hypy37IfyeliEbc
 # https://flask.palletsprojects.com/en/1.1.x/patterns/fileuploads/#an-easier-solution
-UPLOAD_FOLDER = '/static'
-ALLOWED_EXTENSIONS = {'png', 'jpg'}
-
-#https://flask.palletsprojects.com/en/1.1.x/tutorial/views/?highlight=session%20clear
+# https://flask.palletsprojects.com/en/1.1.x/tutorial/views/?highlight=session%20clear
+UPLOAD_FILES = "/Users/dotdj/PycharmProjects/uploads"
 
 app = Flask(__name__)
 
+# CONFIGURATION
 app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-# Upload folder
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['DEBUG'] = True
+app.config['FLASK_ENV'] = 'development'
+
+app.config["IMAGE_UPLOADS"] = UPLOAD_FILES
+app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["JPEG", "JPG", "PNG", "GIF", "NEF"]
+app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024 # The limit is 2 MB
+# Error when uploading a too large file explanation an be find here
+# https://www.reddit.com/r/flask/comments/8768zv/issue_with_setting_max_content_length_for_file/
+
+# FUNCTIONS
+def allowed_image(filename):
+    if not "." in filename:
+        return False
+    ext = filename.rsplit(".", 1)[1]
+    if ext.upper() in app.config["ALLOWED_IMAGE_EXTENSIONS"]:
+        return True
+    else:
+        return False
+
 
 # connection to the db
 # I used this one!
@@ -37,13 +54,48 @@ sql_connection()
 
 # Make sure API key is set?
 
+# HOMEPAGE
 @app.route("/")
 @login_required
 def index():
     #https://docs.python-guide.org/scenarios/imaging/
     #https://flask.palletsprojects.com/en/1.1.x/patterns/fileuploads/
-    return render_template("index.html")
 
+    list_of_filenames = os.listdir(UPLOAD_FILES)
+
+    return render_template("index.html", filenames = list_of_filenames)
+
+# LOOK AT THIS
+# https://pythonise.com/series/learning-flask/flask-uploading-files
+# UPLOAD SECTION
+@app.route("/upload", methods=["GET", "POST"])
+def upload_image():
+    if request.method == "POST":
+        # verify if the request contains files
+        if request.files: 
+            
+            image = request.files["image"]
+                
+            if image.filename == "":
+                print("No filename")
+                #return redirect(request.url)
+                return render_template("sorry.html")
+                
+            if allowed_image(image.filename):
+                filename = secure_filename(image.filename)
+                
+                image.save(os.path.join(app.config["IMAGE_UPLOADS"], image.filename))
+                print("image saved")
+                #return redirect(request.url)
+                return redirect("/")
+            else:
+                print("That file extension is not allowed")
+                #return redirect(request.url)
+                return render_template("sorry.html")
+    return render_template("upload.html")
+
+
+# REGISTER, LOGIN, LOGOUT
 # The register page
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -110,6 +162,7 @@ def logout():
     # Redirect user to login form
     return redirect("/")
 
+# ERRORS
 @app.route("/sorry")
 def sorry():
     return render_template("sorry.html")

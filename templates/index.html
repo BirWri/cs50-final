@@ -4,6 +4,28 @@ Homepage
 {% endblock %}
 
 {% block main %}
-    <label for="myfile">Select a file:</label>
-    <input type="file" id="myfile" name="myfile">
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Uploads</th>
+        <th scope="col">Preview</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      {%for filename in filenames%}
+      <tr>
+        <td>{{filename}}</td>
+        <td>Button 1</td>
+        <td>Button 2</td>
+        <td>Button 3</td>
+      </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+
+<form>
+    <a href="/upload">Upload</a>
+</form>
 {% endblock %}
