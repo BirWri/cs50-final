@@ -17,7 +17,7 @@ import datetime
 # https://www.zabana.me/notes/flask-tutorial-upload-files-amazon-s3?fbclid=IwAR2QRIi9bETlqISe__e3lfI58f-7NdHP59RnRnSaaO27hypy37IfyeliEbc
 # https://flask.palletsprojects.com/en/1.1.x/patterns/fileuploads/#an-easier-solution
 # https://flask.palletsprojects.com/en/1.1.x/tutorial/views/?highlight=session%20clear
-UPLOAD_FILES = "/Users/dotdj/PycharmProjects/uploads"
+UPLOAD_FILES = "/Users/dotdj/PycharmProjects/flaskProject/static/uploads"
 
 app = Flask(__name__)
 

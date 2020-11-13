@@ -41,6 +41,13 @@ Homepage
     </tbody>
   </table>
 
+  <div>
+    {%for filename in filenames%}
+    <img src="..\static\uploads\{{filename}}">
+    {%endfor%}
+  </div>
+  
+
 <form action="/upload">
     <button type="submit" class="btn btn-secondary">Add new photo</button>
 </form>
