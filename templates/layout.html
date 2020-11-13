@@ -11,6 +11,11 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
         <link href="/static/style.css" rel="stylesheet">
 
+        <!-- For the dropdown menu funcrion to work correctly-->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
         <title>Wright Place: {% block title %}{% endblock %}</title>
     </head>
 
@@ -19,22 +24,22 @@
     <!-- Navbar -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="nav">
             <!-- the dancing stick figure -->
-            <a class="navbar-brand" href="/index"><img src="static/giphy.gif" alt="dancing stick figure"> </a>
+            <a class="navbar-brand" href="/"><img src="static/DJ.gif" alt="books" style="width:50px;height:50px;"> </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 {% if session.user_id %}
                     <ul class="navbar-nav">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Features</a>
+                            <a class="nav-link" href="/upload">Upload</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/logout">Log out</a>
-                        </li>
+                    </ul>
+                    <ul class="navbar-nav ml-auto mt-2">
+                        <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
                     </ul>
                 {% else %}
                 <style>
