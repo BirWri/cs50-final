@@ -16,3 +16,15 @@ main
     /* center contents */
     text-align: center;
 }
+
+#example2 {
+    border: 10px dotted black;
+    padding: 100px;
+    background: lightblue;
+    background-clip: padding-box;
+  }
+
+ .row {
+    object-fit: cover;
+ }
+  

@@ -5,14 +5,16 @@ Upload new file
 
 {% block main %}
 <script>
+  // To see the name of the imagien without the full directory
   function pr() {
     
     var path = document.getElementById('image').value;
     var filename = path.replace(/^.*\\/, "");
-    console.log(filename);
+    console.log(path);
     document.getElementById("result").innerHTML = filename;
   };
 
+  // if no file has been chosen, then have a Select file line.
   function SelectFileText() {
   document.getElementById("result").innerHTML = "Select file ...";
   }
@@ -41,4 +43,6 @@ Upload new file
       </div>
     </div>
   </div> 
+
+
 {% endblock %}

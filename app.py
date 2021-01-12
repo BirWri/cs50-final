@@ -18,6 +18,7 @@ import datetime
 # https://flask.palletsprojects.com/en/1.1.x/patterns/fileuploads/#an-easier-solution
 # https://flask.palletsprojects.com/en/1.1.x/tutorial/views/?highlight=session%20clear
 UPLOAD_FILES = "/Users/dotdj/PycharmProjects/flaskProject/static/uploads"
+background = "comic2.png"
 
 app = Flask(__name__)
 
@@ -61,7 +62,9 @@ def index():
     #https://docs.python-guide.org/scenarios/imaging/
     #https://flask.palletsprojects.com/en/1.1.x/patterns/fileuploads/
 
+    list_of_filenames = {}
     list_of_filenames = os.listdir(UPLOAD_FILES)
+    print(list_of_filenames[1])
 
     return render_template("index.html", filenames = list_of_filenames)
 
